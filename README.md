@@ -1,6 +1,5 @@
 # outsider
-If you have multiple projects depend use [gitlab-art](https://github.com/kosma/gitlab-art),
-handle updating them locally instead of pulling the files from the CI.
+Test artifact changes locally from multiple projects that already use [gitlab-art](https://github.com/kosma/gitlab-art).
 
 ## Example
 ### project A `artifacts.yml`
