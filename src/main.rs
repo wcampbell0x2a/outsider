@@ -1,11 +1,16 @@
-use anyhow::{Context, Result};
-use clap::Parser;
-use log::{debug, error, info, warn};
-use serde::Deserialize;
 use std::collections::HashMap;
 use std::fs;
 use std::io;
 use std::path::{Path, PathBuf};
+
+use anyhow::{Context, Result};
+use clap::Parser;
+use log::trace;
+use log::{debug, error, info};
+use owo_colors::OwoColorize;
+use serde::Deserialize;
+
+mod logger;
 
 #[derive(Parser, Debug)]
 #[clap(
@@ -36,12 +41,9 @@ struct ArtifactProject {
 }
 
 fn main() -> Result<()> {
-    env_logger::init();
+    logger::init();
 
     let args = Args::parse();
-
-    info!("Starting gitlab-art-copier");
-    debug!("Command line arguments: {:?}", args);
 
     let yaml_content =
         fs::read_to_string(&args.yaml_file).context(format!("Failed to read YAML file"))?;
@@ -50,7 +52,7 @@ fn main() -> Result<()> {
     let projects: Vec<ArtifactProject> =
         serde_yaml::from_str(&yaml_content).context("Failed to parse artifacts.yml")?;
 
-    info!("Using source directory: {:?}", args.source_dir);
+    trace!("Using source directory: {:?}", args.source_dir);
 
     for project in projects {
         if let Some(ref project_filter) = args.project {
@@ -93,15 +95,7 @@ fn copy_files(source_dir: &Path, dst: &Path, install_map: &HashMap<String, Strin
         }
 
         if source.is_dir() {
-            if destination.exists() {
-                info!("Removing existing destination directory: {:?}", destination);
-                fs::remove_dir_all(&destination).context(format!(
-                    "Failed to remove existing directory: {:?}",
-                    destination
-                ))?;
-            }
-
-            info!(
+            trace!(
                 "Copying directory recursively from {:?} to {:?}",
                 source, destination
             );
@@ -110,14 +104,18 @@ fn copy_files(source_dir: &Path, dst: &Path, install_map: &HashMap<String, Strin
                 source, destination
             ))?;
         } else {
-            info!("Copying file from {:?} to {:?}", source, destination);
+            info!(
+                "Copying file from {:?} to {:?}",
+                source.green(),
+                destination.green()
+            );
             fs::copy(&source, &destination).context(format!(
                 "Failed to copy file from {:?} to {:?}",
                 source, destination
             ))?;
         }
 
-        info!("Successfully copied {:?} to {:?}", source, destination);
+        trace!("Successfully copied {:?} to {:?}", source, destination);
     }
 
     Ok(())
@@ -133,14 +131,21 @@ fn copy_dir_all(src: &Path, dst: &Path) -> io::Result<()> {
         let dst_path = dst.join(entry.file_name());
 
         if ty.is_dir() {
-            if dst_path.exists() && dst_path.is_dir() {
-                info!("Removing existing subdirectory: {:?}", dst_path);
-                fs::remove_dir_all(&dst_path)?;
-            }
-            info!("Copying directory from {:?} to {:?}", src_path, dst_path);
+            trace!(
+                "Copying directory from {:?} to {:?}",
+                src_path.blue(),
+                dst_path.blue()
+            );
             copy_dir_all(&src_path, &dst_path)?;
         } else {
-            info!("Copying file from {:?} to {:?}", src_path, dst_path);
+            if fs::exists(&dst_path)? {
+                trace!("Removing {:?}", dst_path);
+            }
+            info!(
+                "Copying file from {:?} to {:?}",
+                src_path.green(),
+                dst_path.green()
+            );
             fs::copy(&src_path, &dst_path)?;
         }
     }

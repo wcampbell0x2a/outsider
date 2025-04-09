@@ -25,3 +25,19 @@ We have now updated the firmware, good thing we can easily push these changes to
 # move artifacts to the correct placement in project-a
 (kosma/foobar-firmware) $ outsider ./project-a/artifacts.yml --project kosma/foobar-firmware --source-dir .
 ```
+
+## Usage
+```
+Copy files based on artifacts.yml configuration
+
+Usage: outsider [OPTIONS] --source-dir <SOURCE_DIR> <YAML_FILE>
+
+Arguments:
+  <YAML_FILE>  Path to the artifacts.yml file
+
+Options:
+  -p, --project <PROJECT>        Only process projects whose name contains this string
+  -s, --source-dir <SOURCE_DIR>  Source directory
+  -h, --help                     Print help
+  -V, --version                  Print version
+```
