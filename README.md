@@ -2,12 +2,13 @@
 Test artifact changes locally from multiple projects that already use [gitlab-art](https://github.com/kosma/gitlab-art).
 
 ## Example
-### project A `artifacts.yml`
+### project A
 
 The following projects depends on project: `kosma/foobar-firmware`, and we have changes
 locally that we want to test before pushing to the gitlab repo. We _could_ just `cp` them,
 but `outsider` removes that complexity and uses the `artifacts.yml` file.
 
+#### `artifacts.yml`
 ```yml
 - project: kosma/foobar-firmware
   ref: 1.4.0
@@ -16,7 +17,7 @@ but `outsider` removes that complexity and uses the `artifacts.yml` file.
     build/8051/release/firmware.bin: blobs/firmware-8051.blob
 ```
 
-### project B `kosma/foobar-firmware`
+### project B: `kosma/foobar-firmware`
 We have now updated the firmware, good thing we can easily push these changes to the other repo :)
 ```
 # build build/8051/release/firmware.bin
