@@ -1,4 +1,4 @@
-# outsider
+outsider
 ===========================
 
 [<img alt="github" src="https://img.shields.io/badge/github-wcampbell0x2a/outsider-8da0cb?style=for-the-badge&labelColor=555555&logo=github" height="20">](https://github.com/wcampbell0x2a/outsider)
