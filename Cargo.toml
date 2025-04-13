@@ -1,6 +1,6 @@
 [package]
 name = "outsider"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 description = "Test artifact changes locally from multiple projects that already use gitlab-art"
 categories = ["development-tools"]
