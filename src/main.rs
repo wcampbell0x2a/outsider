@@ -34,8 +34,10 @@ struct Args {
 #[derive(Debug, Deserialize)]
 struct ArtifactProject {
     project: String,
+    #[allow(unused)]
     #[serde(rename = "ref")]
     ref_: String,
+    #[allow(unused)]
     job: String,
     install: HashMap<String, String>,
 }
@@ -46,7 +48,7 @@ fn main() -> Result<()> {
     let args = Args::parse();
 
     let yaml_content =
-        fs::read_to_string(&args.yaml_file).context(format!("Failed to read YAML file"))?;
+        fs::read_to_string(&args.yaml_file).context("Failed to read YAML file".to_string())?;
     let dst = args.yaml_file.parent().unwrap();
 
     let projects: Vec<ArtifactProject> =
