@@ -18,22 +18,14 @@ pub fn init() {
             } else {
                 // Use the default colored formatter for non-INFO messages
                 let level = record.level();
-                let mut level_style = buf.style();
-
-                match level {
-                    Level::Trace => level_style.set_color(env_logger::fmt::Color::Magenta),
-                    Level::Debug => level_style.set_color(env_logger::fmt::Color::Cyan),
-                    Level::Info => level_style.set_color(env_logger::fmt::Color::Green),
-                    Level::Warn => level_style.set_color(env_logger::fmt::Color::Yellow),
-                    Level::Error => level_style
-                        .set_color(env_logger::fmt::Color::Red)
-                        .set_bold(true),
-                };
+                let level_style = buf.default_level_style(level);
 
                 writeln!(
                     buf,
-                    "[{}] {}: {}",
-                    level_style.value(level),
+                    "[{}{}{}] {}: {}",
+                    level_style,
+                    level,
+                    level_style.render_reset(),
                     record.target(),
                     record.args()
                 )
