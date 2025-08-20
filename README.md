@@ -31,7 +31,7 @@ We have now updated the firmware, good thing we can easily push these changes to
 (kosma/foobar-firmware) $ make
 
 # move artifacts to the correct placement in project-a
-(kosma/foobar-firmware) $ outsider ./project-a/artifacts.yml --project kosma/foobar-firmware --source-dir .
+(kosma/foobar-firmware) $ outsider ./project-a/artifacts.yml --project kosma/foobar-firmware
 ```
 
 ## Usage
