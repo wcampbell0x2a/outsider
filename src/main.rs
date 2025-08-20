@@ -27,7 +27,7 @@ struct Args {
     project: Option<String>,
 
     /// Source directory
-    #[clap(short, long, required = true, default_value = ".")]
+    #[clap(short, long, default_value = ".")]
     source_dir: PathBuf,
 }
 
