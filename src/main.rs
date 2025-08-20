@@ -58,14 +58,14 @@ fn main() -> Result<()> {
 
     let mut processed_project = false;
     for project in projects {
-        if let Some(ref project_filter) = args.project {
-            if !project.project.contains(project_filter) {
-                debug!(
-                    "Skipping project {} (doesn't match filter '{}')",
-                    project.project, project_filter
-                );
-                continue;
-            }
+        if let Some(ref project_filter) = args.project
+            && !project.project.contains(project_filter)
+        {
+            debug!(
+                "Skipping project {} (doesn't match filter '{}')",
+                project.project, project_filter
+            );
+            continue;
         }
 
         info!("Processing project: {}", project.project);
