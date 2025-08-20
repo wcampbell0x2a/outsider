@@ -3,7 +3,7 @@ use std::fs;
 use std::io;
 use std::path::{Path, PathBuf};
 
-use anyhow::{Context, Result};
+use anyhow::{Context, Result, anyhow};
 use clap::Parser;
 use log::trace;
 use log::{debug, error, info};
@@ -56,6 +56,7 @@ fn main() -> Result<()> {
 
     trace!("Using source directory: {:?}", args.source_dir);
 
+    let mut processed_project = false;
     for project in projects {
         if let Some(ref project_filter) = args.project {
             if !project.project.contains(project_filter) {
@@ -70,7 +71,13 @@ fn main() -> Result<()> {
         info!("Processing project: {}", project.project);
         if let Err(err) = copy_files(&args.source_dir, dst, &project.install) {
             error!("Error processing project {}: {}", project.project, err);
+            continue;
         }
+        processed_project = true;
+    }
+
+    if !processed_project {
+        return Err(anyhow!("Did not process project"));
     }
 
     Ok(())
