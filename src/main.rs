@@ -68,6 +68,15 @@ fn main() -> Result<()> {
     let projects: Vec<ArtifactProject> =
         serde_yaml::from_str(&yaml_content).context("Failed to parse artifacts.yml")?;
 
+    // Require --project flag if there are multiple projects
+    if projects.len() > 1 && args.project.is_none() {
+        return Err(anyhow!(
+            "--project is required when the YAML file contains multiple projects.\n\
+             Found {} projects. Use --project to specify which one to process.",
+            projects.len()
+        ));
+    }
+
     trace!("Using source directory: {:?}", args.source_dir);
 
     let mut processed_project = false;
