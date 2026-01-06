@@ -28,6 +28,8 @@ Or download from [github releases](https://github.com/wcampbell0x2a/outsider/rel
     build/8051/release/firmware.bin: artifacts/blobs/firmware-8051.blob
 ```
 
+### Running from the library
+
 From the firmware repo, just run:
 
 ```console
@@ -38,6 +40,17 @@ $ make
 $ outsider ../project-a/artifacts.yml
 Processing project: kosma/foobar-firmware
 Copying file from "./build/8051/release/firmware.bin" to "../project-a/artifacts/blobs/firmware-8051.blob"
+```
+
+### Running from the binary
+
+From project-a, use `--source-dir` to specify the firmware directory:
+
+```console
+# from project-a
+$ outsider --source-dir ../kosma/foobar-firmware
+Processing project: kosma/foobar-firmware
+Copying file from "../kosma/foobar-firmware/build/8051/release/firmware.bin" to "artifacts/blobs/firmware-8051.blob"
 ```
 
 ## Usage
@@ -51,7 +64,7 @@ Arguments:
 
 Options:
   -p, --project <PROJECT>        Only process projects whose name contains this string
-  -s, --source-dir <SOURCE_DIR>  Source directory [default: .]
+  -s, --source-dir <SOURCE_DIR>  Source directory to copy files from
   -h, --help                     Print help
   -V, --version                  Print version
 ```

@@ -27,9 +27,9 @@ struct Args {
     #[clap(short, long)]
     project: Option<String>,
 
-    /// Source directory
-    #[clap(short, long, default_value = ".")]
-    source_dir: PathBuf,
+    /// Source directory to copy files from
+    #[clap(short, long)]
+    source_dir: Option<PathBuf>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -65,7 +65,8 @@ fn main() -> Result<()> {
         }
 
         info!("Processing project: {}", project.project);
-        if let Err(err) = copy_files(&args.source_dir, dst, &project.install) {
+        let source_dir = args.source_dir.as_deref().unwrap_or(Path::new("."));
+        if let Err(err) = copy_files(source_dir, &dst, &project.install) {
             error!("Error processing project {}: {}", project.project, err);
             continue;
         }
