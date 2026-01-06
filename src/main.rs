@@ -19,7 +19,8 @@ mod logger;
     about = "Copy files based on artifacts.yml configuration"
 )]
 struct Args {
-    /// Path to the artifacts.yml file
+    /// Path to the artifacts.yml file (artifacts extract to this file's directory)
+    #[clap(default_value = "artifacts.yml")]
     yaml_file: PathBuf,
 
     /// Only process projects whose name contains this string
