@@ -8,6 +8,14 @@ outsider
 
 Test artifact changes locally from multiple projects that already use [gitlab-art](https://github.com/kosma/gitlab-art).
 
+## Build
+Either build from published source in crates.io.
+```
+$ cargo install outsider --locked
+```
+
+Or download from [github releases](https://github.com/wcampbell0x2a/outsider/releases).
+
 ## Example
 `project-a` depends on artifacts from `kosma/foobar-firmware`. You've made changes to the firmware and want to test them locally in `project-a` before pushing to GitLab.
 
