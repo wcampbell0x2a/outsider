@@ -34,11 +34,6 @@ struct Args {
 #[derive(Debug, Deserialize)]
 struct ArtifactProject {
     project: String,
-    #[allow(unused)]
-    #[serde(rename = "ref")]
-    ref_: String,
-    #[allow(unused)]
-    job: String,
     install: HashMap<String, String>,
 }
 
