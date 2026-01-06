@@ -84,7 +84,7 @@ fn main() -> Result<()> {
 
         info!("Processing project: {}", project.project);
         let source_dir = args.source_dir.as_deref().unwrap_or(Path::new("."));
-        if let Err(err) = copy_files(source_dir, &dst, &project.install) {
+        if let Err(err) = copy_files(source_dir, dst, &project.install) {
             error!("Error processing project {}: {}", project.project, err);
             continue;
         }
