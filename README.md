@@ -9,7 +9,7 @@ outsider
 Test artifact changes locally from multiple projects that already use [gitlab-art](https://github.com/kosma/gitlab-art).
 
 ## Example
-Project-a depends on artifacts from `kosma/foobar-firmware`. You've made changes to the firmware and want to test them locally in project-a before pushing to GitLab.
+`project-a` depends on artifacts from `kosma/foobar-firmware`. You've made changes to the firmware and want to test them locally in `project-a` before pushing to GitLab.
 
 ### project-a/artifacts.yml
 ```yml
@@ -36,10 +36,10 @@ Copying file from "./build/8051/release/firmware.bin" to "../project-a/artifacts
 ```
 Copy files based on artifacts.yml configuration
 
-Usage: outsider [OPTIONS] <YAML_FILE>
+Usage: outsider [OPTIONS] [YAML_FILE]
 
 Arguments:
-  <YAML_FILE>  Path to the artifacts.yml file
+  [YAML_FILE]  Path to the artifacts.yml file (artifacts extract to this file's directory) [default: artifacts.yml]
 
 Options:
   -p, --project <PROJECT>        Only process projects whose name contains this string
