@@ -47,6 +47,24 @@ fn main() -> Result<()> {
         fs::read_to_string(&args.yaml_file).context("Failed to read YAML file".to_string())?;
     let dst = args.yaml_file.parent().unwrap();
 
+    // Check if yaml_file is in the current directory and source_dir is not specified
+    let current_dir = std::env::current_dir()
+        .context("Failed to get current directory")?
+        .canonicalize()
+        .context("Failed to canonicalize current directory")?;
+    let yaml_absolute = args
+        .yaml_file
+        .canonicalize()
+        .context("Failed to get absolute path of yaml file")?;
+    let yaml_parent = yaml_absolute.parent().unwrap();
+
+    if yaml_parent == current_dir && args.source_dir.is_none() {
+        return Err(anyhow!(
+            "--source-dir is required when artifacts.yml is in the current directory.\n\
+             Without it, files would be copied from the current directory to itself."
+        ));
+    }
+
     let projects: Vec<ArtifactProject> =
         serde_yaml::from_str(&yaml_content).context("Failed to parse artifacts.yml")?;
 
