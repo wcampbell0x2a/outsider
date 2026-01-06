@@ -38,14 +38,14 @@ We have now updated the firmware, good thing we can easily push these changes to
 ```
 Copy files based on artifacts.yml configuration
 
-Usage: outsider [OPTIONS] --source-dir <SOURCE_DIR> <YAML_FILE>
+Usage: outsider [OPTIONS] <YAML_FILE>
 
 Arguments:
   <YAML_FILE>  Path to the artifacts.yml file
 
 Options:
   -p, --project <PROJECT>        Only process projects whose name contains this string
-  -s, --source-dir <SOURCE_DIR>  Source directory
+  -s, --source-dir <SOURCE_DIR>  Source directory [default: .]
   -h, --help                     Print help
   -V, --version                  Print version
 ```
