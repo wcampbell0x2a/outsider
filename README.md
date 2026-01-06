@@ -9,43 +9,41 @@ outsider
 Test artifact changes locally from multiple projects that already use [gitlab-art](https://github.com/kosma/gitlab-art).
 
 ## Example
-### project A
+Project-a depends on artifacts from `kosma/foobar-firmware`. You've made changes to the firmware and want to test them locally in project-a before pushing to GitLab.
 
-The following projects depends on project: `kosma/foobar-firmware`, and we have changes
-locally that we want to test before pushing to the gitlab repo. We _could_ just `cp` them,
-but `outsider` removes that complexity and uses the `artifacts.yml` file.
-
-#### `artifacts.yml`
+### project-a/artifacts.yml
 ```yml
 - project: kosma/foobar-firmware
   ref: 1.4.0
   job: firmware-8051
   install:
-    build/8051/release/firmware.bin: blobs/firmware-8051.blob
+    build/8051/release/firmware.bin: artifacts/blobs/firmware-8051.blob
 ```
 
-### project B: `kosma/foobar-firmware`
-We have now updated the firmware, good thing we can easily push these changes to the other repo :)
-```
-# build build/8051/release/firmware.bin
-(kosma/foobar-firmware) $ make
+From the firmware repo, just run:
 
-# move artifacts to the correct placement in project-a
-(kosma/foobar-firmware) $ outsider ./project-a/artifacts.yml --project kosma/foobar-firmware
+```console
+# build the firmware
+$ make
+
+# copy to project-a
+$ outsider ../project-a/artifacts.yml
+Processing project: kosma/foobar-firmware
+Copying file from "./build/8051/release/firmware.bin" to "../project-a/artifacts/blobs/firmware-8051.blob"
 ```
 
 ## Usage
 ```
 Copy files based on artifacts.yml configuration
 
-Usage: outsider [OPTIONS] --source-dir <SOURCE_DIR> <YAML_FILE>
+Usage: outsider [OPTIONS] <YAML_FILE>
 
 Arguments:
   <YAML_FILE>  Path to the artifacts.yml file
 
 Options:
   -p, --project <PROJECT>        Only process projects whose name contains this string
-  -s, --source-dir <SOURCE_DIR>  Source directory
+  -s, --source-dir <SOURCE_DIR>  Source directory [default: .]
   -h, --help                     Print help
   -V, --version                  Print version
 ```
